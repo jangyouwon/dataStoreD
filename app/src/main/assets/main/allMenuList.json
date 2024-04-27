@@ -1,0 +1,18 @@
+{
+   "signaturelist": {
+      "pushCategoryKey": "",
+      "iconImage": "folder_shared_black_24dp",
+      "link": "view://signaturelist",
+      "label": "전자서명",
+      "type": "MENU",
+      "keyWord": "전자, 서명"
+   },
+   "RD01": {
+      "pushCategoryKey": "",
+      "iconImage": "folder_shared_black_24dp",
+      "link": "view://contDocViewer",
+      "label": "전자서명 뷰어",
+      "type": "MENU",
+      "keyWord": "전자, 서명, 뷰어"
+   }
+}
