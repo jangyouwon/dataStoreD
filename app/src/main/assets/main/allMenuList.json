@@ -14,5 +14,25 @@
       "label": "전자서명 뷰어",
       "type": "MENU",
       "keyWord": "전자, 서명, 뷰어"
-   }
+   },
+   "inputElements":[
+      {
+         "label":"gg",
+         "type":"select",
+         "textColor":"#0001ff",
+         "key":"loginEnterCd"
+      },
+      {
+         "label":"gh",
+         "type":"text",
+         "textColor":"#000000",
+         "key":"loginUserId"
+      },
+      {
+         "label":"AD ",
+         "type":"password",
+         "textColor":"#000000",
+         "key":"loginPassword"
+      }
+   ]
 }

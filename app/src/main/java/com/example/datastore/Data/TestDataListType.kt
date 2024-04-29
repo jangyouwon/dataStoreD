@@ -8,3 +8,10 @@ data class TestDataListType(
     val pushCategoryKey: String,
     val type: String
 )
+
+data class inputElements(
+    val label:String,
+    val type:String,
+    val textColor:String,
+    val key:String
+)

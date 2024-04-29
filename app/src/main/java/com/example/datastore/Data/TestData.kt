@@ -5,7 +5,8 @@ import java.io.Serializable
 
 data class TestData(
     @SerializedName("RD01") val RD01: TestDataListType,
-    @SerializedName("signaturelist") val signaturelist: TestDataListType
+    @SerializedName("signaturelist") val signaturelist: TestDataListType,
+    @SerializedName("inputElements") val inputElements: List<inputElements>
 ): Serializable
 
 class Singleton(){

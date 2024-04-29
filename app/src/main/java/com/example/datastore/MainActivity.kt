@@ -21,18 +21,22 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.io.IOException
 import androidx.datastore.dataStore
+import com.example.datastore.MainActivity.Companion.dataStore
+import com.example.datastore.datastore.TestSingleTon
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.reduce
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
     companion object{
+        lateinit var singleTon:TestSingleTon
         lateinit var mContext: Context
         val Context.dataStore: DataStore<TestData> by dataStore(
-            fileName = "my_data",
+            fileName = "my_data.pb",
             serializer = TestDataSerializer(),
         )
-
         private val _myData = MutableStateFlow<TestData?>(null)
         val myData = _myData.asStateFlow()
 
@@ -59,13 +63,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mContext = this
-
-
+        singleTon = TestSingleTon(this)
 
         var button = findViewById<Button>(R.id.button)
         var textInput = findViewById<EditText>(R.id.editText)
-
-
 
         var mainMenuListJson =
             this.assets.open("main/allMenuList.json")
@@ -74,51 +75,51 @@ class MainActivity : AppCompatActivity() {
         var mainLayoutData =
             Gson().fromJson(mainMenuListJson, TestData::class.java)
 
-        Singleton.TestData = mainLayoutData
+        var data :JSONObject = JSONObject(mainMenuListJson)
 
+        singleTon.inputElementsSetting(data)
+
+
+        Singleton.TestData = mainLayoutData
 
         updateMyData(mainLayoutData)
 
+//        CoroutineScope(Dispatchers.Main).launch {
+//            var t = ApplicationClass.getInstance().getDataStore().pw_text.first()
+////            if(t==null || t==""){
+////                Log.i("youwon","no data")
+////            }else{
+////                Log.i("youwon","here "+t)
+////                myData.collect{data->
+////                    if(data!=null){
+////                        Log.i("youwon","data "+data)
+////                    }
+////                }
+////            }
+//        }
 
-
-
-        CoroutineScope(Dispatchers.Main).launch {
-            var t = ApplicationClass.getInstance().getDataStore().pw_text.first()
-            if(t==null || t==""){
-                Log.i("youwon","no data")
-            }else{
-                Log.i("youwon","here "+t)
-                myData.collect{data->
-                    if(data!=null){
-
-                        Log.i("youwon","data "+data)
-                    }
-
-                }
-            }
-//
-        }
-//
-//
         button.setOnClickListener {
+            changeInput()
 //            changeData("hello")
-            changeData(textInput.text.toString())
-            Log.i("youwon","here ")
+//            changeData(textInput.text.toString())
+
         }
     }
-
-
-
 
 
     fun changeData(data:String) {
         CoroutineScope(Dispatchers.Main).launch {
             ApplicationClass.getInstance().getDataStore().setPwText(data)
-
             ApplicationClass.getInstance().getDataStore().pw_text.asLiveData().observe(this@MainActivity){
-                Log.i("youwon","here "+it)
             }
         }
     }
+
+    fun changeInput() {
+        singleTon.inputElementsRemove("inputElements")
+    }
+
+
+
 
 }
